@@ -99,10 +99,10 @@ headless CLI 的模型 provider 配置在 `~/.zcode/cli/config.json`（与桌面
         "baseURL": "https://open.bigmodel.cn/api/anthropic",
         "apiKey": "<coding-plan API key>"
       },
-      "models": { "glm-5.3": { "name": "GLM-5.3" }, "glm-4.7": { "name": "GLM-4.7" } }
+      "models": { "glm-5.3-flash": { "name": "GLM-5.3-Flash" } }
     }
   },
-  "model": { "main": "bigmodel/glm-5.3", "lite": "bigmodel/glm-4.7" }
+  "model": { "main": "bigmodel/glm-5.3-flash", "lite": "bigmodel/glm-5.3-flash" }
 }
 ```
 

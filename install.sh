@@ -146,8 +146,8 @@ else
     jq -n --arg key "$PKEY" --arg base "$PBASE" \
       '{provider: {bigmodel: {kind: "anthropic", name: "BigModel Coding Plan",
          options: {apiKeyRequired: true, baseURL: $base, apiKey: $key},
-         models: {"glm-5.3": {name: "GLM-5.3"}, "glm-4.7": {name: "GLM-4.7"}}}},
-       model: {main: "bigmodel/glm-5.3", lite: "bigmodel/glm-4.7"}}' > "$CLI_CONFIG"
+         models: {"glm-5.3-flash": {name: "GLM-5.3-Flash"}}}},
+       model: {main: "bigmodel/glm-5.3-flash", lite: "bigmodel/glm-5.3-flash"}}' > "$CLI_CONFIG"
     echo "    已写入 ${CLI_CONFIG} （复用桌面端 coding-plan key，权限 600）"
   fi
 fi
