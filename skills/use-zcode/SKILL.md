@@ -45,16 +45,18 @@ ZCode CLI 随桌面 App（Electron）分发，默认不在 PATH。按顺序定�
 
    实际目录名可能因版本不同，用 glob 探测（如 `ls /Applications/ZCode.app/Contents/Resources/*/zcode.cjs`），取第一个存在的匹配。
 
-3. **调用范式**——`ELECTRON_RUN_AS_NODE=1` 让 Electron 主程序以纯 Node 运行 CLI 入口：
+3. **调用范式**——`zcode.cjs` 是纯 Node bundle，优先用系统 Node（>=22）直接运行；无合适 Node 时才用 `ELECTRON_RUN_AS_NODE=1` 让 Electron 主程序以纯 Node 运行（安装脚本生成的 wrapper 已自动选择）：
 
    ```sh
-   # macOS
+   # 首选：系统 Node
+   node /Applications/ZCode.app/Contents/Resources/glm/zcode.cjs version
+   # 回退：Electron 二进制
    ELECTRON_RUN_AS_NODE=1 /Applications/ZCode.app/Contents/MacOS/ZCode \
      /Applications/ZCode.app/Contents/Resources/glm/zcode.cjs version
    # Windows (cmd)
    set ELECTRON_RUN_AS_NODE=1 && "%LOCALAPPDATA%\Programs\ZCode\ZCode.exe" resources\glm\zcode.cjs version
    # Linux
-   ELECTRON_RUN_AS_NODE=1 /opt/ZCode/zcode /opt/ZCode/resources/glm/zcode.cjs version
+   node /opt/ZCode/resources/glm/zcode.cjs version
    ```
 
 4. **模型配置**：桌面 App 与 headless CLI 的模型配置是两套独立入口（桌面在 `~/.zcode/v2/config.json`，CLI 在 `~/.zcode/cli/config.json`），不会自动同步；且 `zcode login` 的 OAuth 流程存在已知 bug（zai-org/feedback#51）。本项目 `install.sh` 会从桌面配置复用 coding-plan key 自动生成 CLI 配置。若 headless 报 "Model config is missing"，运行 `install.sh` 即可；报 429/1308 是账号 5 小时用量上限，等待重置，不要换 key 重试。

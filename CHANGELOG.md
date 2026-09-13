@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.3 (2026-09-13)
+
+- wrapper 运行时优先级调整：优先用**系统 Node（>=22）**直接运行 `zcode.cjs`（纯 Node bundle，无 Chromium 开销），无合适 Node 时回退到 Electron 二进制（`ELECTRON_RUN_AS_NODE=1`）
+- skill 文档同步更新调用范式说明
+
 ## 0.0.2 (2026-09-13)
 
 - 默认模型改为 **GLM-5.3-Flash**：CLI 模型配置（`~/.zcode/cli/config.json`）只注册 `glm-5.3-flash` 一个模型，`model.main` / `lite` 均指向它

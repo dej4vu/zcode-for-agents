@@ -12,13 +12,12 @@ ZCode CLI 不在 PATH 中，随桌面 App（Electron）分发。按平台定位�
 | Windows | `%LOCALAPPDATA%\Programs\ZCode\ZCode.exe` 或 `C:\Program Files\ZCode\ZCode.exe` | 同目录 `resources\*\zcode.cjs` |
 | Linux | `/opt/ZCode*/zcode`、`/usr/lib/zcode*/zcode` | 同目录 `resources/*/zcode.cjs` |
 
-目录名可能随版本变化，用 glob 探测取第一个存在的匹配。调用范式（`ELECTRON_RUN_AS_NODE=1` 使 Electron 主程序以纯 Node 运行）：
+目录名可能随版本变化，用 glob 探测取第一个存在的匹配。`zcode.cjs` 是纯 Node bundle，运行时两种选择：
 
-```sh
-ELECTRON_RUN_AS_NODE=1 <主程序> <zcode.cjs> <args>
-```
+1. **系统 Node（>=22，首选）**：`node <zcode.cjs> <args>`——无 Chromium 开销；
+2. **Electron 二进制回退**：`ELECTRON_RUN_AS_NODE=1 <主程序> <zcode.cjs> <args>`——机器上没有合适 Node 时使用。
 
-`install.sh` 会在 `~/.local/bin/zcode` 创建等价 wrapper（macOS/Linux），之后直接用 `zcode <args>`。
+`install.sh` 生成的 `~/.local/bin/zcode` wrapper 已自动按此优先级选择，之后直接用 `zcode <args>`。
 
 ## 子命令
 
