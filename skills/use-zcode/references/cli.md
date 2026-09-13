@@ -32,50 +32,55 @@ ZCode CLI 不在 PATH 中，随桌面 App（Electron）分发。按平台定位�
 | `commands list` | 列出可用的 slash 命令 |
 | `plugins list` | 列出插件 |
 
+> **重要**：`zcode --help` 列出的 flag 有相当一部分在 headless 解析器中**未实现**（传入即报 `Unknown option`）。下表按 0.16.5 实测结果标注。选项统一放在 `-p` 的 prompt 之前最稳（`--cwd` / `--attach` / `--mode` / `--json` 在 prompt 之后也可用）。
+
 ## Headless / 运行模式
 
-| 标志 | 说明 |
-|---|---|
-| `-p, --print "prompt"` | positional prompt 的 headless 运行，跑完退出 |
-| `--prompt "prompt"` | 同为非交互单条 prompt |
-| `--json` | 机器可读输出（**没有** `--output-format`，用这个替代） |
-| `--max-turns <n>` | 限制 agent 轮数 |
-| `--target <text>` / `--target-replace` | headless 模式的目标 / goal |
+| 标志 | 状态 | 说明 |
+|---|---|---|
+| `-p, --print "prompt"` | ✅ | positional prompt 的 headless 运行，跑完退出 |
+| `--prompt "prompt"` | ✅ | 同为非交互单条 prompt |
+| `--json` | ✅ | 机器可读输出（**没有** `--output-format`，用这个替代） |
+| `--target-replace` | ✅ | 替换已有会话 goal |
+| `--force-mcs` | ✅ | Anthropic provider 的 mid-conversation system projection |
+| `--max-turns <n>` | ❌ 未实现 | 限制 agent 轮数 |
+| `--target <text>` | ❌ 未实现 | 设置 goal |
+| `--surface <t\|d>` | ❌ 未实现 | 运行表面 |
 
 ## 上下文与工作目录
 
-| 标志 | 说明 |
-|---|---|
-| `--cwd <path>` | 工作目录 |
-| `--attach <path>` | 给 `--prompt` 附带本地文件（可重复） |
+| 标志 | 状态 | 说明 |
+|---|---|---|
+| `--cwd <path>` | ✅ | 工作目录 |
+| `--attach <path>` | ✅ | 给 prompt 附带本地文件（可重复） |
 
 ## 权限
 
-| 标志 | 说明 |
-|---|---|
-| `--mode <build\|edit\|plan\|yolo>` | 权限模式；`--prompt` / `-p` 默认宽权限（yolo） |
-| `--permission-mode` | `--mode` 的旧别名 |
-| `--allowed-tools <list>` | 工具白名单 |
-| `--disallowed-tools <list>` | 工具黑名单 |
-| `--allow-main-worktree-yolo` | 允许在主 worktree 中使用 yolo |
+| 标志 | 状态 | 说明 |
+|---|---|---|
+| `--mode <build\|edit\|plan\|yolo>` | ✅ | 权限模式；`-p` 默认宽权限（yolo） |
+| `--permission-mode` | ❌ 未实现 | help 所称的旧别名 |
+| `--allowed-tools <list>` | ❌ 未实现 | 工具白名单 |
+| `--disallowed-tools <list>` | ❌ 未实现 | 工具黑名单（驼峰 `--disallowedTools` 同样未实现） |
+| `--allow-main-worktree-yolo` | ❌ 未实现 | — |
 
 ## 会话
 
-| 标志 | 说明 |
-|---|---|
-| `--resume <sess_...>` | 续接指定会话 |
-| `-c, --continue` | 续接最近会话 |
+| 标志 | 状态 | 说明 |
+|---|---|---|
+| `--resume <sess_...>` | ✅ | 续接指定会话 |
+| `-c, --continue` | ✅ | 续接最近会话 |
 
 ## 其他
 
-| 标志 | 说明 |
-|---|---|
-| `--settings <path>` | 指定 settings 文件 |
-| `--locale <en-US\|zh-CN\|auto>` | 输出语言 |
-| `--browser-use headless` | 浏览器任务用无头模式 |
-| `--browser-executable <path>` | 指定浏览器可执行文件 |
-| `--surface <terminal\|desktop>` | 运行表面 |
-| `--no-browser` / `--no-color` / `--verbose` | 杂项开关 |
+| 标志 | 状态 | 说明 |
+|---|---|---|
+| `--locale <en-US\|zh-CN\|auto>` | ✅（放 `-p` 前） | 输出语言；放在 prompt 之后会被拒 |
+| `--no-browser` | ✅ | OAuth 只打印 URL 不开浏览器 |
+| `--no-color` / `--verbose` | ✅ | 杂项开关 |
+| `--settings <path>` | ❌ 未实现 | help 列出但解析器不认 |
+| `--browser-use headless` | ❌ 未实现 | — |
+| `--browser-executable <path>` | 未测 | — |
 
 ## 已知限制
 

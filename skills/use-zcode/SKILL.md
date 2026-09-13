@@ -87,14 +87,14 @@ Bash 工具默认超时约 2 分钟，而 headless 代理任务常需数分钟�
 2. **后台运行**：用宿主 agent 的后台执行能力（如 `run_in_background`）启动，之后轮询输出；用 `--json` 从结果中取 `session id`，需要续接时 `--resume <sess_...>` 或 `-c`（继续最近会话）：
 
 ```sh
-zcode -p "把整个项目从 Jest 迁移到 Vitest" --cwd . --json --max-turns 80
+zcode -p "把整个项目从 Jest 迁移到 Vitest" --cwd . --json
 # 稍后续接同一会话
 zcode --resume sess_xxx -p "跑通全部测试后提交" --json
 ```
 
-`--max-turns <n>` 限制 agent 轮数，长任务适当调高；不设则按默认策略运行。
+长任务无法限制轮数（`--max-turns` 在 0.16.5 的 headless 解析器中未实现），用后台运行 + 轮询控制。
 
-## 关键标志
+## 关键标志（0.16.5 实测）
 
 | 标志 | 作用 |
 |---|---|
@@ -103,13 +103,14 @@ zcode --resume sess_xxx -p "跑通全部测试后提交" --json
 | `--cwd <path>` | 指定工作目录 |
 | `--attach <path>` | 附带本地文件给 prompt（可重复） |
 | `--mode <mode>` | 权限模式 `build` / `edit` / `plan` / `yolo`，见下方规则 |
-| `--max-turns <n>` | 限制 agent 轮数 |
 | `--resume <sess_...>` / `-c` | 续接指定 / 最近会话 |
-| `--allowed-tools` / `--disallowed-tools` | 工具白名单 / 黑名单（逗号分隔） |
-| `--locale <en-US\|zh-CN\|auto>` | 输出语言 |
-| `--browser-use headless` | 强制浏览器任务使用无头模式 |
+| `--locale <en-US\|zh-CN\|auto>` | 输出语言（放在 `-p` 之前） |
 
-注意：**没有 `--model` 标志**，模型由 ZCode settings 或会话内 `/model` 决定，不要尝试传模型参数。
+注意：
+
+- **选项统一放在 `-p` 的 prompt 之前最稳**；`--cwd` / `--attach` / `--mode` / `--json` 在 prompt 之后也可用。
+- **help 里列出但 headless 解析器未实现**（传入会报 `Unknown option`）：`--max-turns`、`--allowed-tools` / `--disallowed-tools`、`--target`、`--permission-mode`、`--settings`、`--surface`、`--browser-use`、`--allow-main-worktree-yolo`，不要使用。
+- **没有 `--model` 标志**，模型由 `~/.zcode/cli/config.json` 的 `model.main` 决定。
 
 ## 典型工作流
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.4 (2026-09-13)
+
+- 修正 flag 文档：逐个实测 0.16.5 headless 解析器，`--help` 列出的以下 flag 实际**未实现**（传入报 `Unknown option`）：`--max-turns`、`--allowed-tools` / `--disallowed-tools`、`--target`、`--permission-mode`、`--settings`、`--surface`、`--browser-use`、`--allow-main-worktree-yolo`
+- SKILL.md / references/cli.md 的标志表改为实测标注（✅/❌），并注明选项位置建议（统一放 `-p` 之前最稳；`--locale` 在 prompt 之后会被拒）
+
 ## 0.0.3 (2026-09-13)
 
 - wrapper 运行时优先级调整：优先用**系统 Node（>=22）**直接运行 `zcode.cjs`（纯 Node bundle，无 Chromium 开销），无合适 Node 时回退到 Electron 二进制（`ELECTRON_RUN_AS_NODE=1`）
