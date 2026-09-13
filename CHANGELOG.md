@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.2 (2026-09-13)
+
+- 默认模型改为 **GLM-5.3-Flash**：CLI 模型配置（`~/.zcode/cli/config.json`）只注册 `glm-5.3-flash` 一个模型，`model.main` / `lite` 均指向它
+- headless 实测通过（`-p/--json`、`--attach`、`--mode plan`、`--resume`，默认走 flash）
+
 ## 0.0.1 (2026-09-13)
 
 首个版本。
